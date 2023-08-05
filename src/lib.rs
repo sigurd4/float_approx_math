@@ -194,11 +194,14 @@ mod tests {
         plot::plot_curves(plot_title, plot_path, [x, x], [y_approx, y])
             .expect("Plot error");
 
-        let error = y.zip(y_approx)
+        let (avg_error, max_abs_error) = y.zip(y_approx)
             .map(|(y, y_approx)| y - y_approx)
-            .reduce(|a, b| a + b)
-            .unwrap_or_default()/N as f32;
-        println!("Error: {}", error)
+            .map(|y| (y, y.abs()))
+            .reduce(|a, b| (a.0 + b.0, a.1.max(b.1)))
+            .map(|(sum_error, max_abs_error)| (sum_error/N as f32, max_abs_error))
+            .unwrap_or_default();
+        println!("Average Error: {}", avg_error);
+        println!("Max |Error|: {}", max_abs_error);
     }
 
     #[test]
