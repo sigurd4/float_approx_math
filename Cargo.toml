@@ -2,6 +2,11 @@
 name = "float_approx_math"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+keywords = ["math", "float", "const", "compile-time", "approximation"]
+categories = ["algorithms", "mathematics"]
+description = "A math library for compile-time floating-point approximations (sqrt, sin, cos, etc...)"
+repository = "https://github.com/sigurd4/float_approx_math"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
