@@ -1,3 +1,5 @@
+#![cfg_attr(not(any(test, feature = "std")), no_std)]
+
 #![feature(const_trait_impl)]
 #![feature(const_float_bits_conv)]
 #![feature(const_fn_floating_point_arithmetic)]
@@ -22,13 +24,13 @@ moddef::moddef!(
 
 mod f32
 {
-    pub use std::f32::consts::*;
+    pub use core::f32::consts::*;
 
     pub(crate) const EXP_BIAS: u32 = 127;
 }
 mod f64
 {
-    pub use std::f64::consts::*;
+    pub use core::f64::consts::*;
 
     pub(crate) const EXP_BIAS: u64 = 1023;
 }
