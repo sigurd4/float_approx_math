@@ -1,0 +1,1 @@
+A math library for compile-time floating-point approximations (sqrt, sin, cos, etc...)
