@@ -6,6 +6,25 @@ use array_trait::*;
 #[const_trait]
 pub trait ApproxCos
 {
+    /// Calculates an approximation of a cosine, using the Z80 / ZX Spectrum algorithm.
+    /// 
+    /// https://namoseley.wordpress.com/2012/09/26/arduinoavr-and-zx-spectrum-sin-routines/
+    /// 
+    /// This approximation is significantly slower than the built-in cos method in the standard library,
+    /// however this method can be run at compile-time.
+    /// 
+    /// # Example
+    /// 
+    /// ```rust
+    /// #![feature(const_trait_impl)]
+    /// 
+    /// use float_approx_math::ApproxCos;
+    /// 
+    /// const X: f32 = 2.0;
+    /// const Y: f32 = X.approx_cos();
+    ///
+    /// assert!((Y - X.cos()).abs() < 0.0000005); // Less than 0.0000005 abs error
+    /// ```
     fn approx_cos(self) -> Self;
 }
 

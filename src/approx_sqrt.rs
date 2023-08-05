@@ -7,8 +7,8 @@ pub trait ApproxSqrt
     /// 
     /// The result gets iterated through the Newton-Raphson method with a given amount of iterations.
     /// 
-    /// Even at 0 iterations, this algorithm is typically slower than the built-in sqrt function in the standard library,
-    /// however this is possible to run at compile-time.
+    /// Even at 0 iterations, this algorithm is typically a bit slower than the built-in sqrt function in the standard library,
+    /// however this method can be run at compile-time.
     /// 
     /// # Example
     /// 
