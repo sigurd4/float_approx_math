@@ -1,4 +1,4 @@
-#![cfg_attr(not(any(test, feature = "std")), no_std)]
+#![cfg_attr(not(any(test/*, feature = "std"*/)), no_std)]
 
 #![feature(const_trait_impl)]
 #![feature(const_float_bits_conv)]
