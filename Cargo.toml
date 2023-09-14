@@ -14,15 +14,14 @@ repository = "https://github.com/sigurd4/float_approx_math"
 default = ["sin", "sqrt"]
 no_array_trait = ["sqrt"]
 
-sin = ["dep:polynomial_ops", "dep:array_trait"]
+sin = ["dep:polynomial_ops"]
 sqrt = []
 
 [dependencies]
 moddef = "0.2.2"
-array_trait = {version = "0.6.11", optional = true}
 polynomial_ops = {version = "0.1.2", optional = true}
 
 [dev-dependencies]
 plotters = "0.3.5"
 linspace = "0.1.0"
-array_trait = "0.6.11"
+array_trait = "0.6.15"
