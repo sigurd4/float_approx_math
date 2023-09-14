@@ -11,6 +11,9 @@ repository = "https://github.com/sigurd4/float_approx_math"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [features]
+default = ["sin", "sqrt"]
+no_array_trait = ["sqrt"]
+
 sin = ["dep:polynomial_ops", "dep:array_trait"]
 sqrt = []
 
