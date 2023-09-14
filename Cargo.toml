@@ -19,8 +19,8 @@ sqrt = []
 
 [dependencies]
 moddef = "0.2.2"
-polynomial_ops = {version = "0.1.3", optional = true}
-array_trait = {version = "0.6.15", optional = true}
+polynomial_ops = {version = "0.1.4", optional = true}
+array_trait = {version = "0.6.16", optional = true}
 
 [dev-dependencies]
 plotters = {}
