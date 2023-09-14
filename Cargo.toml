@@ -12,7 +12,7 @@ repository = "https://github.com/sigurd4/float_approx_math"
 
 [dependencies]
 moddef = "0.2.2"
-array_trait = "0.5.15"
+array_trait = "0.6.11"
 polynomial_ops = "0.1.2"
 
 [dev-dependencies]
