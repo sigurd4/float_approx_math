@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use array_trait::{ArrayOps, ArrayNdOps};
 use plotters::{prelude::*, element::PointCollection, coord::ranged3d::{ProjectionMatrixBuilder, ProjectionMatrix}};
 

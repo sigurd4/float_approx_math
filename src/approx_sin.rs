@@ -74,3 +74,38 @@ macro_rules! impl_approx_sin {
 }
 impl_approx_sin!(f32; f32);
 impl_approx_sin!(f64; f64);
+
+#[cfg(test)]
+mod test
+{
+    use ::test::Bencher;
+
+    use super::*;
+    use crate::tests as t;
+
+    #[test]
+    fn sin()
+    {
+        const RANGE: f32 = f32::TAU;
+        t::plot_approx("sin", -RANGE..RANGE, f32::sin, ApproxSin::approx_sin)
+    }
+    
+    #[bench]
+    fn sin_benchmark(_: &mut Bencher)
+    {
+        type F = f64;
+
+        const N: usize = 500;
+        const S: usize = 32;
+
+        t::plot_benchmark::<_, _, N, _>(
+            "sin",
+            [
+                &F::sin,
+                &ApproxSin::approx_sin
+            ],
+            -f64::TAU..f64::TAU,
+            S
+        )
+    }
+}

@@ -66,3 +66,59 @@ macro_rules! impl_approx_sqrt {
 }
 impl_approx_sqrt!(f32: u32; f32);
 impl_approx_sqrt!(f64: u64; f64);
+
+#[cfg(test)]
+mod test
+{
+    use ::test::Bencher;
+
+    use super::*;
+    use crate::tests as t;
+
+    #[test]
+    pub fn sqrt_error()
+    {
+        const X: f64 = 2.0;
+        const Y: f64 = X.approx_sqrt::<0>();
+
+        println!("{}", X.sqrt());
+        println!("{}", Y);
+        println!("error = {}", (Y - X.sqrt())/X.sqrt());
+    }
+    
+    #[bench]
+    fn sqrt_benchmark(_: &mut Bencher)
+    {
+        type F = f64;
+
+        const N: usize = 1000;
+        const S: usize = 32;
+
+        t::plot_benchmark::<_, _, N, _>(
+            "sqrt",
+            [
+                &F::sqrt,
+                &ApproxSqrt::approx_sqrt::<0>,
+                &ApproxSqrt::approx_sqrt::<1>,
+                &ApproxSqrt::approx_sqrt::<2>,
+                &ApproxSqrt::approx_sqrt::<3>,
+                &ApproxSqrt::approx_sqrt::<4>
+            ],
+            0.0..256.0,
+            S
+        );
+
+        {
+            const N: usize = 1000000;
+            let x: Vec<F> = (0..N).map(|i| (i + 1) as F).collect();
+    
+            println!("sqrt dt = {:?}", t::benchmark(&x, &F::sqrt));
+            
+            println!("approx_sqrt::<0> dt = {:?}", t::benchmark(&x, &|x| x.approx_sqrt::<0>()));
+            println!("approx_sqrt::<1> dt = {:?}", t::benchmark(&x, &|x| x.approx_sqrt::<1>()));
+            println!("approx_sqrt::<2> dt = {:?}", t::benchmark(&x, &|x| x.approx_sqrt::<2>()));
+            println!("approx_sqrt::<3> dt = {:?}", t::benchmark(&x, &|x| x.approx_sqrt::<3>()));
+            println!("approx_sqrt::<4> dt = {:?}", t::benchmark(&x, &|x| x.approx_sqrt::<4>()));
+        }
+    }
+}

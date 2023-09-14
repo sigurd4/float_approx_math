@@ -10,11 +10,16 @@ repository = "https://github.com/sigurd4/float_approx_math"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+sin = ["dep:polynomial_ops", "dep:array_trait"]
+sqrt = []
+
 [dependencies]
 moddef = "0.2.2"
-array_trait = "0.6.11"
-polynomial_ops = "0.1.2"
+array_trait = {version = "0.6.11", optional = true}
+polynomial_ops = {version = "0.1.2", optional = true}
 
 [dev-dependencies]
 plotters = "0.3.5"
 linspace = "0.1.0"
+array_trait = "0.6.11"

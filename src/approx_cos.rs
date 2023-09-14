@@ -74,3 +74,38 @@ macro_rules! impl_approx_cos {
 }
 impl_approx_cos!(f32; f32);
 impl_approx_cos!(f64; f64);
+
+#[cfg(test)]
+mod test
+{
+    use ::test::Bencher;
+
+    use super::*;
+    use crate::tests as t;
+
+    #[test]
+    fn cos()
+    {
+        const RANGE: f32 = f32::TAU;
+        t::plot_approx("cos", -RANGE..RANGE, f32::cos, ApproxCos::approx_cos)
+    }
+    
+    #[bench]
+    fn cos_benchmark(_: &mut Bencher)
+    {
+        type F = f64;
+
+        const N: usize = 500;
+        const S: usize = 32;
+
+        t::plot_benchmark::<_, _, N, _>(
+            "cos",
+            [
+                &F::cos,
+                &ApproxCos::approx_cos
+            ],
+            -f64::TAU..f64::TAU,
+            S
+        )
+    }
+}
