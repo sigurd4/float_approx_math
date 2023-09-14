@@ -1,5 +1,6 @@
 #![cfg_attr(not(any(test/*, feature = "std"*/)), no_std)]
 
+#![feature(test)]
 #![feature(const_trait_impl)]
 #![feature(const_float_bits_conv)]
 #![feature(const_fn_floating_point_arithmetic)]
@@ -14,6 +15,8 @@
 moddef::moddef!(
     flat(pub) mod {
         approx_sqrt,
+        approx_inv_sqrt,
+
         approx_sin,
         approx_cos
     },
@@ -36,15 +39,30 @@ mod f64
 }
 
 #[cfg(test)]
+extern crate test;
+
+#[cfg(test)]
 mod tests {
     use std::{time::Duration, ops::RangeBounds};
 
     use array_trait::{ArrayOps, Array2dOps};
     use linspace::{LinspaceArray, Linspace};
+    use test::Bencher;
     
     const PLOT_TARGET: &str = "plots";
 
     use super::*;
+    
+    #[test]
+    fn inv_sqrt()
+    {
+        const RANGE: f32 = 10.0;
+        
+        plot_approx("inv_sqrt_0", 0.1..RANGE, |x| x.sqrt().recip(), ApproxInvSqrt::approx_inv_sqrt::<0>);
+        plot_approx("inv_sqrt_1", 0.1..RANGE, |x| x.sqrt().recip(), ApproxInvSqrt::approx_inv_sqrt::<1>);
+        plot_approx("inv_sqrt_2", 0.1..RANGE, |x| x.sqrt().recip(), ApproxInvSqrt::approx_inv_sqrt::<2>);
+        plot_approx("inv_sqrt_3", 0.1..RANGE, |x| x.sqrt().recip(), ApproxInvSqrt::approx_inv_sqrt::<3>);
+    }
 
     #[test]
     fn sin()
@@ -53,8 +71,8 @@ mod tests {
         plot_approx("sin", -RANGE..RANGE, f32::sin, ApproxSin::approx_sin)
     }
     
-    #[test]
-    fn sin_benchmark()
+    #[bench]
+    fn sin_benchmark(_: &mut Bencher)
     {
         type F = f64;
 
@@ -79,8 +97,8 @@ mod tests {
         plot_approx("cos", -RANGE..RANGE, f32::cos, ApproxCos::approx_cos)
     }
     
-    #[test]
-    fn cos_benchmark()
+    #[bench]
+    fn cos_benchmark(_: &mut Bencher)
     {
         type F = f64;
 
@@ -98,8 +116,8 @@ mod tests {
         )
     }
 
-    #[test]
-    fn sqrt_benchmark()
+    #[bench]
+    fn sqrt_benchmark(_: &mut Bencher)
     {
         type F = f64;
 
@@ -131,6 +149,42 @@ mod tests {
             println!("approx_sqrt::<2> dt = {:?}", benchmark(&x, &|x| x.approx_sqrt::<2>()));
             println!("approx_sqrt::<3> dt = {:?}", benchmark(&x, &|x| x.approx_sqrt::<3>()));
             println!("approx_sqrt::<4> dt = {:?}", benchmark(&x, &|x| x.approx_sqrt::<4>()));
+        }
+    }
+
+    #[bench]
+    fn inv_sqrt_benchmark(_: &mut Bencher)
+    {
+        type F = f64;
+
+        const N: usize = 1000;
+        const S: usize = 32;
+
+        plot_benchmark::<_, _, N, _>(
+            "inv_sqrt",
+            [
+                &|x: F| x.sqrt().recip(),
+                &ApproxInvSqrt::approx_inv_sqrt::<0>,
+                &ApproxInvSqrt::approx_inv_sqrt::<1>,
+                &ApproxInvSqrt::approx_inv_sqrt::<2>,
+                &ApproxInvSqrt::approx_inv_sqrt::<3>,
+                &ApproxInvSqrt::approx_inv_sqrt::<4>
+            ],
+            0.1..256.0,
+            S
+        );
+
+        {
+            const N: usize = 1000000;
+            let x: Vec<F> = (0..N).map(|i| (i + 1) as F).collect();
+    
+            println!("sqrt dt = {:?}", benchmark(&x, &|x: F| x.sqrt().recip()));
+            
+            println!("approx_inv_sqrt::<0> dt = {:?}", benchmark(&x, &|x| x.approx_inv_sqrt::<0>()));
+            println!("approx_inv_sqrt::<1> dt = {:?}", benchmark(&x, &|x| x.approx_inv_sqrt::<1>()));
+            println!("approx_inv_sqrt::<2> dt = {:?}", benchmark(&x, &|x| x.approx_inv_sqrt::<2>()));
+            println!("approx_inv_sqrt::<3> dt = {:?}", benchmark(&x, &|x| x.approx_inv_sqrt::<3>()));
+            println!("approx_inv_sqrt::<4> dt = {:?}", benchmark(&x, &|x| x.approx_inv_sqrt::<4>()));
         }
     }
 
