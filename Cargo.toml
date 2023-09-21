@@ -1,6 +1,6 @@
 [package]
 name = "float_approx_math"
-version = "0.1.5"
+version = "0.1.6"
 edition = "2021"
 license = "MIT"
 keywords = ["math", "float", "const", "compile-time", "approximation"]
