@@ -30,7 +30,7 @@ pub trait ApproxSin
 
 macro_rules! impl_approx_sin {
     ($float:ty; $consts:tt) => {
-        impl const ApproxSin for $float
+        impl /*const*/ ApproxSin for $float
         {
             fn approx_sin(self) -> Self
             {
@@ -43,12 +43,12 @@ macro_rules! impl_approx_sin {
                     0.000001185,
                     -0.000000007
                 ];
-                const T: [[$float; N]; N] = ArrayOps::fill(
-                    const |n| Into::<Option<[$float; N]>>::into(ChebyshevPolynomial::new_of_first_kind(n)).unwrap()
+                let t: [[$float; N]; N] = ArrayOps::fill(
+                    /*const*/ |n| Into::<Option<[$float; N]>>::into(ChebyshevPolynomial::new_of_first_kind(n)).unwrap()
                 );
-                const P: [$float; N] = T.zip2(C)
-                    .map2(const |(t, c)| t.map2(const |tn| c*tn))
-                    .reduce(const |a, b| a.zip2(b).map2(const |(a, b)| a + b))
+                let p: [$float; N] = t.zip2(C)
+                    .map2(/*const*/ |(t, c)| t.map2(const |tn| c*tn))
+                    .reduce(/*const*/ |a, b| a.zip2(b).map2(const |(a, b)| a + b))
                     .unwrap_or_default();
 
                 let mut w = self*$consts::FRAC_2_PI;
@@ -67,7 +67,7 @@ macro_rules! impl_approx_sin {
 
                 let z = 2.0*w*w - 1.0;
 
-                P.evaluate_as_polynomial(z)*w
+                p.evaluate_as_polynomial(z)*w
             }
         }
     };

@@ -7,7 +7,6 @@
 #![feature(const_option)]
 #![feature(const_mut_refs)]
 #![feature(const_option_ext)]
-#![feature(array_zip)]
 #![feature(generic_arg_infer)]
 
 #![feature(const_closures)]
