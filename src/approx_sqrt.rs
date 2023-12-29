@@ -18,9 +18,9 @@ pub trait ApproxSqrt
     /// use float_approx_math::ApproxSqrt;
     /// 
     /// const X: f32 = 2.0;
-    /// const Y: f32 = X.approx_sqrt::<3>(); // Three iterations
+    /// let y: f32 = X.approx_sqrt::<3>(); // Three iterations
     ///
-    /// assert_eq!(Y, X.sqrt());
+    /// assert_eq!(y, X.sqrt());
     /// ```
     /// 
     /// # Error
@@ -79,11 +79,11 @@ mod test
     pub fn sqrt_error()
     {
         const X: f64 = 2.0;
-        const Y: f64 = X.approx_sqrt::<0>();
+        let y: f64 = X.approx_sqrt::<0>();
 
         println!("{}", X.sqrt());
-        println!("{}", Y);
-        println!("error = {}", (Y - X.sqrt())/X.sqrt());
+        println!("{}", y);
+        println!("error = {}", (y - X.sqrt())/X.sqrt());
     }
     
     #[bench]

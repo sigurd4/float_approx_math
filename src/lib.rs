@@ -47,7 +47,7 @@ extern crate test;
 mod tests {
     use std::{time::Duration, ops::RangeBounds};
 
-    use array_trait::{ArrayOps, Array2dOps};
+    use array__ops::{ArrayOps, Array2dOps};
     use linspace::{LinspaceArray, Linspace};
     
     const PLOT_TARGET: &str = "plots";

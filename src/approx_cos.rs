@@ -1,7 +1,7 @@
 use super::*;
 
 use polynomial_ops::*;
-use array_trait::*;
+use array__ops::*;
 
 #[const_trait]
 pub trait ApproxCos
@@ -21,9 +21,9 @@ pub trait ApproxCos
     /// use float_approx_math::ApproxCos;
     /// 
     /// const X: f32 = 2.0;
-    /// const Y: f32 = X.approx_cos();
+    /// let y: f32 = X.approx_cos();
     ///
-    /// assert!((Y - X.cos()).abs() < 0.0000005); // Less than 0.0000005 abs error
+    /// assert!((y - X.cos()).abs() < 0.0000005); // Less than 0.0000005 abs error
     /// ```
     fn approx_cos(self) -> Self;
 }
@@ -46,9 +46,9 @@ macro_rules! impl_approx_cos {
                 let t: [[$float; N]; N] = ArrayOps::fill(
                     /*const*/ |n| Into::<Option<[$float; N]>>::into(ChebyshevPolynomial::new_of_first_kind(n)).unwrap()
                 );
-                let p: [$float; N] = t.zip2(C)
+                let p: [$float; N] = t.zip(C)
                     .map2(/*const*/ |(t, c)| t.map2(const |tn| c*tn))
-                    .reduce(/*const*/ |a, b| a.zip2(b).map2(const |(a, b)| a + b))
+                    .reduce(/*const*/ |a, b| a.zip(b).map2(const |(a, b)| a + b))
                     .unwrap_or_default();
 
                 let mut w = self*$consts::FRAC_2_PI + 1.0;

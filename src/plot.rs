@@ -1,6 +1,6 @@
 #![allow(unused)]
 
-use array_trait::{ArrayOps, ArrayNdOps};
+use array__ops::{ArrayOps, ArrayNdOps};
 use plotters::{prelude::*, element::PointCollection, coord::ranged3d::{ProjectionMatrixBuilder, ProjectionMatrix}};
 
 type T = f32;
@@ -49,7 +49,7 @@ pub fn plot_curves<const N: usize, const M: usize>(
     {
         let color = Palette99::pick(i);
         chart.draw_series(LineSeries::new(
-                x.zip2(y),
+                x.zip(y),
                 &color
             ))?
         .label(format!("{}", i))

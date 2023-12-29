@@ -19,9 +19,9 @@ pub trait ApproxInvSqrt
     /// use float_approx_math::ApproxInvSqrt;
     /// 
     /// const X: f32 = 2.0;
-    /// const Y: f32 = X.approx_inv_sqrt::<4>(); // Three iterations
+    /// let y: f32 = X.approx_inv_sqrt::<4>(); // Three iterations
     ///
-    /// assert_eq!(Y, X.sqrt().recip());
+    /// assert_eq!(y, X.sqrt().recip());
     /// ```
     fn approx_inv_sqrt<const NEWTON: usize>(self) -> Self;
     
