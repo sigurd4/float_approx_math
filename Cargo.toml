@@ -19,8 +19,8 @@ sqrt = []
 
 [dependencies]
 moddef = "0.2.2"
-polynomial_ops = {version = "0.1.7", optional = true}
-array__ops = {version = "0.1.1", optional = true}
+polynomial_ops = {version = "0.1.8", optional = true}
+array__ops = {version = "0.1.2", optional = true}
 fn_zip = "0.1.2"
 
 [dev-dependencies]
